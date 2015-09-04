@@ -2,8 +2,6 @@ function showIt()
 {
  var osel = document.getElementById("sel1");
  var ote = document.getElementById("op1");
- var ste = document.getElementById("op2");
- ote.style.visibility = "visible";
  ote.innerText = "Your chosen option is: "+osel.value;
  if(osel.selectedIndex === 0)
    {
