@@ -1,4 +1,4 @@
-#all
+#swoop
 {
   width: 10vw;
   height: 10vh;
@@ -8,5 +8,7 @@
 }
 p
 {
-    text-align: center;
+  top:40vh;
+  left:40vw;
+  text-align: center;
 }
