@@ -11,6 +11,6 @@ function showIt()
    }
  else if(osel.selectedIndex === 1)
    {
-     document.getElementById("swoop").innerHTML = '<iframe width="560" height="315" src="https://www.youtube.com/embed/xCNSwbanIVA" frameborder="0" allowfullscreen></iframe>';
+     document.getElementById("swoop").innerHTML = '<iframe src="https://www.youtube.com/embed/xCNSwbanIVA" frameborder="0" allowfullscreen></iframe>';
    }
 }
