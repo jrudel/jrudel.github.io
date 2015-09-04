@@ -7,7 +7,7 @@ function showIt()
  ote.innerText = "Your chosen option is: "+osel.value;
  if(osel.selectedIndex === 0)
    {
-     document.getElementById("swoop").innerHTML = '<iframe width="560" height="315" src="https://www.youtube.com/embed/IK3bG1OQeLw" frameborder="0" allowfullscreen></iframe>';
+     document.getElementById("swoop").innerHTML = '<iframe src="https://www.youtube.com/embed/IK3bG1OQeLw" frameborder="0" allowfullscreen></iframe>';
    }
  else if(osel.selectedIndex === 1)
    {
