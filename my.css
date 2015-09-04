@@ -11,11 +11,3 @@ p
 {
   text-align:center;
 }
-iframe
-{
-  width: 10vw;
-  height: 10vh;
-  position: absolute;
-  top: 25vh;
-  left: 35vw;
-}
