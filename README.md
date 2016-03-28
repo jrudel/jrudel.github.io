@@ -1,2 +1,2 @@
 # jrudel.github.io
-a webisode of your favorite show
+Server side storage for team Cyan Burnt Chrome extension.
