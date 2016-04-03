@@ -13,19 +13,25 @@ function getRunes(runePage, key) {
     var statAccum = {};
     for(var i = 0; i < runePage.slots.length; i++) {
       //gets the numerical value of the rune.
-      var stat = runes.data[runePage.slots[i].runeId].description.match(/\d+\.?\d*/)[0];
-      //if new rune, insert into object with stat.
-      //if rune already in object, add stat to current value.
-      if(!(runePage.slots[i].runeId in statAccum)) {
-        statAccum[runePage.slots[i].runeId] = parseFloat(stat);
+      var numStat = runes.data[runePage.slots[i].runeId].description.match(/(\d+\.?\d*)(.*)/)[1];
+      //gets the type of stat
+      var textStat = runes.data[runePage.slots[i].runeId].description.match(/(\d+\.?\d*)(.*)/)[2];
+      //Combine stat values to give total stats gained at lvl1
+      if(!(textStat in statAccum)) {
+        statAccum[textStat] = parseFloat(numStat);
       }
       else
-        statAccum[runePage.slots[i].runeId] += parseFloat(stat);
-      console.log(runes.data[runePage.slots[i].runeId].description);
+        statAccum[textStat] += parseFloat(numStat);
       $('#stats').append(runes.data[runePage.slots[i].runeId].description + '<br>');
     }
     //dump stat contents
-    console.log(statAccum);
+    $('#totals').append('Stat totals at level 1 (level 18)<br>');
+    $.each(statAccum, function(key, value) {
+      console.log(key.indexOf('per level'));
+      if(key.indexOf('per level') !== -1)
+        value += ' (' + (18 * value) + ')';
+      $('#totals').append(key + ': ' + value + '<br>');
+    });
   });
 }
 
