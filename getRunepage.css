@@ -1,0 +1,6 @@
+#stats {
+  float: left;
+}
+#stats, #totals {
+  margin: 10px
+}
