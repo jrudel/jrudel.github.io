@@ -1,33 +1,44 @@
-/*
- *todo:
- *Make a data structure that groups like rune stats.
- *Example want to add AD marks + AD quints numerical value before displaying.
- *So it should have ad,ap,mr,armor... per level should be separate.
- */
+//The start of the urls for api calls.
+var staticUrl = 'https://global.api.pvp.net/api/lol/static-data/na/v1.2';
+var naUrl = 'https://na.api.pvp.net/api/lol/na/v1.4';
+
 function getRunes(runePage, key) {
-  //clear stats of any previous runepage
+  //clear any previous runepage
   $('#stats').html('');
+  $('#totals').html('');
   //get static rune data
-  $.get('https://global.api.pvp.net/api/lol/static-data/na/v1.2/rune?api_key=' + key, function(runes) {
-    //Adds numerical value of like rune stats
+  $.get(staticUrl + '/rune?api_key=' + key, function(runes) {
+    //Stores and adds numerical value of like rune stats
     var statAccum = {};
+    //Stores used rune descriptions
+    var descripions = {};
     for(var i = 0; i < runePage.slots.length; i++) {
       //gets the numerical value of the rune.
       var numStat = runes.data[runePage.slots[i].runeId].description.match(/(\d+\.?\d*)(.*)/)[1];
       //gets the type of stat
       var textStat = runes.data[runePage.slots[i].runeId].description.match(/(\d+\.?\d*)(.*)/)[2];
+      var desc = runes.data[runePage.slots[i].runeId].description;
       //Combine stat values to give total stats gained at lvl1
       if(!(textStat in statAccum)) {
         statAccum[textStat] = parseFloat(numStat);
       }
       else
         statAccum[textStat] += parseFloat(numStat);
-      $('#stats').append(runes.data[runePage.slots[i].runeId].description + '<br>');
+      //Only want to display one entry per unique rune
+      if(!(desc in descripions)) {
+        descripions[desc] = 1;
+      }
+      else
+        descripions[desc]++;
     }
-    //dump stat contents
+    //dump unique runes and their totals
+    $.each(descripions, function(key, value) {
+        $('#stats').append(value + 'x ' + key + '<br>');
+      });
+    //dump stat totals
     $('#totals').append('Stat totals at level 1 (level 18)<br>');
     $.each(statAccum, function(key, value) {
-      console.log(key.indexOf('per level'));
+      //Modify per level stats to display total recieved at level 18
       if(key.indexOf('per level') !== -1)
         value += ' (' + (18 * value) + ')';
       $('#totals').append(key + ': ' + value + '<br>');
@@ -40,7 +51,7 @@ function getPage() {
   var key = $('#key').val();
   //Can't use as object when spaces are included.
   summoner = summoner.replace(/ /g , '');
-  var getIdUrl = 'https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/' + summoner + '?api_key=' + key;
+  var getIdUrl = naUrl + '/summoner/by-name/' + summoner + '?api_key=' + key;
   var getCurrentPageUrl;
   var sumId;
   console.log(summoner);
@@ -48,7 +59,7 @@ function getPage() {
     //get summoner id for next api calls
     sumId = data[summoner].id;
     console.log(sumId);
-    getCurrentPageUrl = 'https://na.api.pvp.net/api/lol/na/v1.4/summoner/' + sumId + '/runes?api_key=' + key;
+    getCurrentPageUrl = naUrl + '/summoner/' + sumId + '/runes?api_key=' + key;
     $.get(getCurrentPageUrl, function(data) {
       //gets all rune pages for the summoner
       var runePages = data[sumId].pages;
@@ -60,6 +71,5 @@ function getPage() {
         }
       }
     });
-    
   });
 }
