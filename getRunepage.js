@@ -18,6 +18,10 @@ function getRunes(runePage, key) {
       //gets the type of stat
       var textStat = runes.data[runePage.slots[i].runeId].description.match(/(\d+\.?\d*)(.*)/)[2];
       var desc = runes.data[runePage.slots[i].runeId].description;
+      
+      if(textStat.indexOf('(') !== -1) {
+        textStat = textStat.substr(0, textStat.indexOf('('));
+      }
       //Combine stat values to give total stats gained at lvl1
       if(!(textStat in statAccum)) {
         statAccum[textStat] = parseFloat(numStat);
